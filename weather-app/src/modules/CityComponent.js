@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 
 const WeatherLogo = styled.img`
@@ -41,14 +42,17 @@ margin: 20px auto;
 }
 `
 
-const CityComponent = () => {
+const CityComponent = (props) => {
+
+  const {updateCity,fetchWeather}=props;
+
   return (
     <>
       <WeatherLogo src="/icons/perfect-day.svg"></WeatherLogo>
       <ChooseCityLebel>Find Weather Of Your City</ChooseCityLebel>
-      <SearchBox>
-      <input placeholder="city"/>
-         <button>Search</button>
+      <SearchBox onSubmit={fetchWeather}>
+      <input placeholder="city" onChange={(e)=>updateCity(e.target.value)}/>
+         <button type="submit">Search</button>
       </SearchBox>
     </>
   );

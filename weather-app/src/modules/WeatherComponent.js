@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+const WeatherinfoIcons={
+  sunset:"./icons/temp.svg",
+  sunrise:"./icons/temp.svg",
+  humidity:"./icons/humidity.svg",
+  wind:"./icons/wind.svg",
+  pressure:"./icons/pressure.svg",
+}
+
 const WeatherCondition = styled.div`
   display: flex;
   flex-direction: row;
@@ -49,14 +57,14 @@ const InfoContainer=styled.div`
   align-items: center;
   margin:5px 10px;
 `
-const InfoIcon=styled.div`
+const InfoIcon =styled.img`
  width: 36px;
  height: 36px;
- border: 1px solid red;
+ /* border: 1px solid red; */
 `
 const InfoLabel=styled.div`
  display: flex;
- flex-direction: row;
+ flex-direction: column;
  font-size: 14px;
  margin: 15px;
 & span {
@@ -65,16 +73,20 @@ const InfoLabel=styled.div`
 }
 `
 
-const WeatherInfoComponent=()=>{
+const WeatherInfoComponent=(props)=>{
+    
+ 
+   const {name,value} = props;
     return(
         <InfoContainer>
-            <InfoIcon src="/icons/perfect-day.svg"/>
-            <InfoLabel>ddddd<span>39</span></InfoLabel>
+            <InfoIcon src={WeatherinfoIcons[name]}/>
+            <InfoLabel>{value}<span>{name}</span></InfoLabel>
         </InfoContainer>
     )
 }
 
-const WeatherComponent = () => {
+const WeatherComponent = ( props) => {
+  const {weather}=props
   return (
     <>
       <WeatherCondition>
@@ -83,13 +95,13 @@ const WeatherComponent = () => {
         </Condition>
         <WeatherLogo src="/icons/perfect-day.svg"></WeatherLogo>
       </WeatherCondition>
-      <Location>London ,GB</Location>
+      <Location>{weather.name}</Location>
       <WeatherInfoLabel>weather info</WeatherInfoLabel>
       <WeatherinfoContainer>
-        <WeatherInfoComponent />
-        <WeatherInfoComponent />
-        <WeatherInfoComponent />
-        <WeatherInfoComponent />
+        <WeatherInfoComponent name="sunrise" value="2333"/>
+        <WeatherInfoComponent name="humidity" value="45"/>
+        <WeatherInfoComponent name="wind" value="67"/>
+        <WeatherInfoComponent name="pressure" value="32"/>
       </WeatherinfoContainer>
     </>
   );

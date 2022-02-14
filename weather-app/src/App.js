@@ -1,4 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
+
+import axios from "axios";
 
 import CityComponent from "./modules/CityComponent";
 import WeatherComponent from "./modules/WeatherComponent";
@@ -24,12 +27,27 @@ font-size: 18px;
 font-weight: bold;
 `
 
+const API_KEY="5efe22ea66934c8ca72d215d959ae539";
+
 function App() {
+  const [city,updateCity]=useState();
+const [weather,updateWeather]=useState();
+
+const fetchWeather=async (e)=>{
+  e.preventDefault();
+  const response=await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`);
+  updateWeather(response.data)
+  console.log(response)
+};
   return (
     <Container>
       <AppLabel> React Weater App</AppLabel>
-      {/* <CityComponent /> */}
-      <WeatherComponent />
+      {weather ? (
+        <WeatherComponent  weather={weather}/> ) :(
+       <CityComponent  updateCity={updateCity} fetchWeather={fetchWeather}/>
+        )
+      }
+    
     </Container>
   );
 }
