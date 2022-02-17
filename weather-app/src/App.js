@@ -41,7 +41,7 @@ const fetchWeather=async (e)=>{
 };
   return (
     <Container>
-      <AppLabel> React Weater App</AppLabel>
+      <AppLabel> React Weather App</AppLabel>
       {weather ? (
         <WeatherComponent  weather={weather}/> ) :(
        <CityComponent  updateCity={updateCity} fetchWeather={fetchWeather}/>

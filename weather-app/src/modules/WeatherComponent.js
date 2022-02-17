@@ -7,6 +7,23 @@ const WeatherinfoIcons={
   wind:"./icons/wind.svg",
   pressure:"./icons/pressure.svg",
 }
+ const WeatherIcons = {
+  "01d": "/icons/sunny.svg",
+  "01n": "/icons/night.svg",
+  "02d": "/icons/day.svg",
+  "02n": "/icons/cloudy-night.svg",
+  "03d": "/icons/cloudy.svg",
+  "03n": "/icons/cloudy.svg",
+  "04d": "/icons/perfect-day.svg",
+  "04n": "/icons/cloudy-night.svg",
+  "09d": "/icons/rain.svg",
+  "09n": "/icons/rain-night.svg",
+  "10d": "/icons/rain.svg",
+  "10n": "/icons/rain-night.svg",
+  "11d": "/icons/storm.svg",
+  "11n": "/icons/storm.svg",
+};
+
 
 const WeatherCondition = styled.div`
   display: flex;
@@ -86,22 +103,30 @@ const WeatherInfoComponent=(props)=>{
 }
 
 const WeatherComponent = ( props) => {
-  const {weather}=props
+  const {weather}=props;
+// forsunrise and sunset
+ const isDay=weather.weather[0].icon.includes("d");
+
+//  for time
+const getTime=(timeStamp)=>{
+  return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()} `
+}
+  
   return (
     <>
       <WeatherCondition>
         <Condition>
-          <span>30 C</span>| Cloudy
+        <span>{`${Math.floor(weather.main.temp - 273)}°C`}</span>{`| ${weather.weather[0].description}`}
         </Condition>
-        <WeatherLogo src="/icons/perfect-day.svg"></WeatherLogo>
+        <WeatherLogo src={WeatherIcons[weather.weather[0].icon]} alt="/icons/cloudy.svg"></WeatherLogo>
       </WeatherCondition>
-      <Location>{weather.name}</Location>
+      <Location>{`${weather?.name}, ${weather?.sys?.country}`}</Location>
       <WeatherInfoLabel>weather info</WeatherInfoLabel>
       <WeatherinfoContainer>
-        <WeatherInfoComponent name="sunrise" value="2333"/>
-        <WeatherInfoComponent name="humidity" value="45"/>
-        <WeatherInfoComponent name="wind" value="67"/>
-        <WeatherInfoComponent name="pressure" value="32"/>
+        <WeatherInfoComponent name={isDay ? "sunrise" : "sunset"} value={getTime(isDay ? weather.sys.sunrise : weather.sys.sunset )}/>
+        <WeatherInfoComponent name="humidity" value={weather.main.humidity}/>
+        <WeatherInfoComponent name="wind" value={weather.wind.speed}/>
+        <WeatherInfoComponent name="pressure" value={weather.main.pressure}/>
       </WeatherinfoContainer>
     </>
   );
